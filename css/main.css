@@ -1,0 +1,78 @@
+ :root { --ink:#0e1a24; --panel:#14232f; --line:#2b4152; --text:#e8eef2; --muted:#93a8b6; --accent:#f2b84b; --good:#5fd39a; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--ink); color: var(--text); }
+  body { min-height: 100%; }
+  #view { position: absolute; inset: 0; background: #000; }
+  #view.no-zoom-out .leaflet-control-zoom-out { display: none; }
+
+  #landing { min-height: 100%; display: grid; place-items: center; padding: 80px 20px 24px; }
+  #landing[hidden] { display: none; }
+  #landingCard { width: min(100%, 520px); padding: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  #landingTitle { margin: 0; font-size: 2rem; }
+  #landingSubtitle { margin: 8px 0 24px; color: var(--muted); }
+  #gameSetup { display: grid; gap: 10px; }
+  #gameSetup > label, #scaleLabel { font-weight: 600; }
+  .default-note { color: #708492; font-size: 0.75em; font-weight: 400; }
+  #regionTypeLabel .default-note { margin-inline-start: 5px; }
+  #gameSetup select { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--ink); color: var(--text); font: inherit; }
+  #scaleOptions, #difficultyOptions { display: flex; flex-wrap: wrap; gap: 12px; margin: 6px 0; padding: 12px; border: 1px solid var(--line); border-radius: 6px; }
+  #scaleOptions legend, #difficultyOptions legend { padding: 0 4px; font-weight: 600; }
+  #scaleOptions label, #difficultyOptions label { display: flex; align-items: center; gap: 6px; }
+  #difficultyOptions label[hidden] { display: none; }
+  #difficultyHint { margin: -4px 0 0; color: var(--muted); font-size: 13px; }
+  #regionStatus { min-height: 1.5em; margin: 0; color: var(--muted); font-size: 14px; }
+  #acknowledgements { margin-top: 22px; color: var(--muted); font-size: 12px; }
+  #acknowledgements h2 { margin: 0 0 4px; color: var(--text); font-size: 13px; font-weight: 600; }
+  #acknowledgements ul { margin: 0; padding-inline-start: 18px; }
+  #acknowledgements a { color: inherit; }
+  #acknowledgements a:hover { color: var(--text); }
+  #playButton, #backToMenu { padding: 10px 16px; border: 0; border-radius: 6px; background: var(--accent); color: #1b1300; font: inherit; font-weight: 600; cursor: pointer; }
+  #backToMenu { position: absolute; top: 58px; left: 5%; z-index: 2100; }
+  #game { display: none; position: absolute; inset: 0; }
+  #game.active { display: block; }
+
+  #hud { position: absolute; top: 12px; left: 5%; z-index: 2100; display: flex; align-items: center; gap: 8px; }
+  .chip { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 14px; }
+  .chip b { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  #languageControl { position: absolute; top: 12px; right: 12px; z-index: 2100; display: flex; align-items: center; gap: 8px;
+                     padding: 6px 8px 6px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; font-size: 14px; }
+  #languageSelect { max-width: 150px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px;
+                    background: var(--ink); color: var(--text); font: inherit; }
+  #languageSelect:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+  /* Guess minimap: small by default, grows on hover or focus. */
+  #panel { position: absolute; right: 12px; bottom: 12px; z-index: 1000; width: 300px; background: var(--panel);
+           border: 1px solid var(--line); border-radius: 8px; padding: 8px; transition: width .15s ease; }
+  #panel:hover, #panel:focus-within { width: min(640px, calc(100vw - 24px)); }
+  #guess { height: 200px; border-radius: 5px; transition: height .15s ease; }
+  #panel:hover #guess, #panel:focus-within #guess { height: min(420px, 55vh); }
+  #confirm { width: 100%; margin-top: 8px; padding: 10px; border: 0; border-radius: 6px; font-size: 15px; font-weight: 600;
+             background: var(--accent); color: #1b1300; cursor: pointer; }
+  #confirm:disabled { background: var(--line); color: var(--muted); cursor: not-allowed; }
+  #confirm:focus-visible, #next:focus-visible, #playButton:focus-visible, #backToMenu:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+  #result { position: absolute; inset: 0; z-index: 2000; display: none; grid-template-rows: minmax(0, 1fr) auto auto; background: var(--ink); }
+  #result.show { display: grid; }
+  #resultMap { min-height: 0; }
+  #finalLocationList { max-height: 24vh; overflow: auto; padding: 8px 16px; background: var(--ink); border-top: 1px solid var(--line); }
+  #finalLocationList h2 { margin: 0 0 6px; font-size: 15px; }
+  #finalLocationList table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  #finalLocationList th, #finalLocationList td { padding: 4px 8px; border-bottom: 1px solid var(--line); text-align: start; }
+  #finalLocationList th { position: sticky; top: 0; background: var(--panel); color: var(--muted); }
+  #locationDetails { margin-top: 6px; color: var(--muted); font-size: 13px; }
+  #resultBar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px;
+               background: var(--panel); border-top: 1px solid var(--line); flex-wrap: wrap; }
+  #resultBar .pts { font-size: 24px; font-weight: 700; color: var(--good); font-variant-numeric: tabular-nums; }
+  #resultBar .dist { color: var(--muted); }
+  #next { padding: 10px 18px; border: 0; border-radius: 6px; font-size: 15px; font-weight: 600; background: var(--accent); color: #1b1300; cursor: pointer; }
+  .leaflet-container { font-family: inherit; direction: ltr; }
+  @media (max-width: 520px) {
+    #landingCard { padding: 20px; }
+    #hud { top: 62px; left: 12px; flex-wrap: wrap; }
+    #backToMenu { top: 108px; left: 12px; }
+    #finalLocationList { max-height: 30vh; padding: 6px 8px; }
+    #finalLocationList table { font-size: 11px; }
+    #finalLocationList th, #finalLocationList td { padding: 4px; }
+  }
+  @media (prefers-reduced-motion: reduce) { #panel, #guess { transition: none; } }

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sattlitle</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+
+<div id="languageControl">
+  <label id="languageLabel" for="languageSelect">Language</label>
+  <select id="languageSelect" aria-labelledby="languageLabel">
+    <option value="en">English</option>
+    <option value="uk">Українська</option>
+    <option value="ru">Русский</option>
+    <option value="fr">Français</option>
+    <option value="de">Deutsch</option>
+    <option value="es">Español</option>
+    <option value="ar">العربية</option>
+    <option value="zh">中文</option>
+  </select>
+</div>
+
+<main id="landing">
+  <section id="landingCard" aria-labelledby="landingTitle">
+    <h1 id="landingTitle">Sattlitle</h1>
+    <p id="landingSubtitle">Explore the world, one guess at a time.</p>
+    <form id="gameSetup">
+      <label for="regionType" id="regionTypeLabel"><span id="regionTypeLabelText">Play area</span></label>
+      <select id="regionType">
+        <option id="worldOption" value="world" selected>World (Default)</option>
+        <option value="continent">Continent</option>
+        <option value="country">Country</option>
+      </select>
+      <label for="continentSelect" id="continentLabel" hidden>Continent</label>
+      <select id="continentSelect" hidden>
+        <option value="">Choose a continent</option>
+      </select>
+      <label for="countrySelect" id="countryLabel">Country</label>
+      <select id="countrySelect" required disabled>
+        <option value="">Loading countries…</option>
+      </select>
+
+      <fieldset id="scaleOptions">
+        <legend id="scaleLabel">Map scale</legend>
+        <label><input type="radio" name="scale" value="super-small" checked><span id="superSmallLabel">Super small</span><small id="scaleDefault" class="default-note">Default</small></label>
+        <label><input type="radio" name="scale" value="small"><span id="smallLabel">Small</span></label>
+        <label><input type="radio" name="scale" value="medium"><span id="mediumLabel">Medium</span></label>
+      </fieldset>
+
+      <fieldset id="difficultyOptions">
+        <legend id="difficultyLabel">Difficulty</legend>
+        <label id="superEasyOption"><input type="radio" name="difficulty" value="super-easy" checked><span id="superEasyLabel">Super Easy</span><small id="difficultyDefault" class="default-note">Default</small></label>
+        <label><input type="radio" name="difficulty" value="easy"><span id="easyLabel">Easy</span></label>
+        <label><input type="radio" name="difficulty" value="medium"><span id="mediumDifficultyLabel">Medium</span></label>
+        <label><input type="radio" name="difficulty" value="hard"><span id="hardLabel">Hard</span></label>
+      </fieldset>
+      <p id="difficultyHint">Easy uses the largest cities, Medium uses more cities, and Hard uses all cities.</p>
+
+      <p id="regionStatus" role="status" aria-live="polite"></p>
+      <button id="playButton" type="submit" disabled>Play</button>
+    </form>
+    <section id="acknowledgements" aria-labelledby="acknowledgementsTitle">
+      <h2 id="acknowledgementsTitle">Acknowledgements</h2>
+      <ul>
+        <li><a href="https://simplemaps.com/data/world-cities" target="_blank" rel="noopener noreferrer">World cities data: SimpleMaps</a></li>
+        <li><a href="https://gist.github.com/Miserlou/c5cd8364bf9b2420bb29" target="_blank" rel="noopener noreferrer">U.S. cities data: Miserlou (bundled, not currently used in gameplay)</a></li>
+        <li><a id="satelliteCredit" href="https://s2maps.eu" target="_blank" rel="noopener noreferrer">Satellite imagery: Sentinel-2 cloudless by EOX; contains modified Copernicus Sentinel data 2021</a></li>
+        <li><span id="cartoCredit">Guess and results maps: CARTO basemaps; © OpenStreetMap contributors</span> (<a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO attribution</a>; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap copyright</a>)</li>
+      </ul>
+    </section>
+  </section>
+</main>
+
+<div id="game">
+<div id="view"></div>
+
+<div id="hud">
+  <div class="chip"><span id="roundLabel">Round</span> <b id="roundNum">1</b> <span id="ofLabel">of</span> <span id="roundTotal">5</span></div>
+  <div class="chip"><span id="scoreLabel">Score</span> <b id="total">0</b></div>
+  <button id="backToMenu" type="button">Menu</button>
+</div>
+
+<div id="panel">
+  <div id="guess"></div>
+  <button id="confirm" disabled>Place a pin to guess</button>
+</div>
+
+<div id="result">
+  <div id="resultMap"></div>
+  <section id="finalLocationList" aria-labelledby="finalLocationsTitle" hidden>
+    <h2 id="finalLocationsTitle">Locations</h2>
+    <div class="location-table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th id="roundColumn">Round</th>
+            <th id="cityColumn">City</th>
+            <th id="countryColumn">Country</th>
+            <th id="populationColumn">Population</th>
+            <th id="guessDistanceColumn">Guess distance</th>
+          </tr>
+        </thead>
+        <tbody id="finalLocationRows"></tbody>
+      </table>
+    </div>
+  </section>
+  <div id="resultBar">
+    <div>
+      <div class="pts" id="pts"></div>
+      <div class="dist" id="dist"></div>
+      <div id="locationDetails"></div>
+    </div>
+    <button id="next">Next round</button>
+  </div>
+</div>
+</div>
+<script data-goatcounter="https://sattlitle.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
